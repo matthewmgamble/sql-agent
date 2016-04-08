@@ -7,8 +7,7 @@ import (
 	"log"
 	"mime"
 	"net/http"
-
-	"github.com/chop-dbhi/sql-agent"
+	"github.com/matthewmgamble/sql-agent"
 )
 
 var usage = `SQL Agent - HTTP interface

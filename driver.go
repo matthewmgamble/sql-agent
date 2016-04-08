@@ -9,7 +9,6 @@ import (
 	_ "github.com/denisenkom/go-mssqldb"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
-	_ "github.com/mattn/go-oci8"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -150,66 +149,6 @@ var connectors = map[string]connector{
 		return strings.Join(toks, " ")
 	},
 
-	// Oracle supports a standard URI-based connection string.
-	// See http://godoc.org/github.com/mattn/go-oci8#ParseDSN
-	"oci8": func(params map[string]interface{}) string {
-		var (
-			user, pass, db interface{}
-
-			host interface{} = "localhost"
-			port interface{} = 1521
-
-			query []string
-		)
-
-		for k, v := range params {
-			switch k {
-			case "user":
-				user = v
-			case "password":
-				pass = v
-			case "host":
-				host = v
-			case "port":
-				port = v
-			case "database":
-				db = v
-			default:
-				query = append(query, fmt.Sprintf("%s=%s", k, url.QueryEscape(fmt.Sprint(v))))
-			}
-		}
-
-		var conn string
-
-		if user != nil {
-			conn += fmt.Sprintf("%s", user)
-		}
-
-		if pass != nil {
-			conn += fmt.Sprintf("/%s", pass)
-		}
-
-		if conn != "" {
-			conn += "@"
-		}
-
-		// If a host is supplied a port must as well or vice versa.
-		if host != nil {
-			conn += fmt.Sprint(host)
-		}
-
-		if port != nil {
-			conn += fmt.Sprintf(":%v", port)
-		}
-
-		conn += fmt.Sprintf("/%s", db)
-
-		if len(query) > 0 {
-			conn += fmt.Sprintf("?%s", strings.Join(query, "&"))
-		}
-
-		return conn
-	},
 }
 
 // mapBytesToString ensures byte slices that were returned from the database

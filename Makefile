@@ -12,7 +12,6 @@ install:
 	go get github.com/denisenkom/go-mssqldb
 	go get github.com/go-sql-driver/mysql
 	go get github.com/mattn/go-sqlite3
-	go get github.com/mattn/go-oci8
 
 test-install: install
 	go get golang.org/x/tools/cmd/cover
